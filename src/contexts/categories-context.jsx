@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useReducer } from "react";
 import {
   addCollectionAndDocuments,
   getCategoriesAndDocuments,
@@ -11,8 +11,28 @@ export const CategoriesContext = createContext({
   categoriesMap: {},
 });
 
+const CATEGORIES_TYPE = {
+  SET_CATEGORIES_MAP: "SET_CATEGORIES_MAP",
+};
+
+const INITIAL_STATE = {
+  categoriesMap: {},
+};
+const categoriesReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CATEGORIES_TYPE.SET_CATEGORIES:
+      return { ...state, categoriesMap: payload };
+    default:
+      return state;
+  }
+};
 export const CategoriesProvider = ({ children }) => {
   const [categoriesMap, setCategoriesMap] = useState({});
+  // const [categoriesMap, dispatch] = useReducer(
+  //   categoriesReducer,
+  //   INITIAL_STATE
+  // );
   const value = { categoriesMap };
 
   /// this is only for populating firestore database with data.
@@ -20,9 +40,19 @@ export const CategoriesProvider = ({ children }) => {
   useEffect(() => {
     const getCategories = async () => {
       const categoriesMap = await getCategoriesAndDocuments();
+
+      // dispatch({
+      //   type: CATEGORIES_TYPE.SET_CATEGORIES_MAP,
+      //   payload: categoriesMap,
+      // });
+
       setCategoriesMap(categoriesMap);
     };
-    getCategories();
+    try {
+      getCategories();
+    } catch (err) {
+      console.log("Erro while fetching data: ", err.message);
+    }
   }, []);
 
   useEffect(() => {

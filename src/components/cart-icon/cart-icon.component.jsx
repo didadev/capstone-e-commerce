@@ -10,6 +10,7 @@ import {
 const CartIcon = ({}) => {
   const { isCartOpen, setIsCartOpen, itemCount } = useContext(CartContext);
 
+  //const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);
   const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);
 
   return (

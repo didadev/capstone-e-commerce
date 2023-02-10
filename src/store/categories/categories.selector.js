@@ -15,3 +15,13 @@ export const selectCategoriesMap = createSelector(
       return { ...acc, [title.toLowerCase()]: { title, items } };
     }, {})
 );
+
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categoriesSlice) => categoriesSlice.isLoading
+);
+
+export const selectCategoriesError = createSelector(
+  [selectCategoryReducer],
+  (categoriesSlice) => categoriesSlice.error
+);

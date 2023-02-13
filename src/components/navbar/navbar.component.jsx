@@ -1,11 +1,11 @@
 import { ReactComponent as CapstoneLogo } from "../../assets/crown.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
 import { signOutUser } from "../../utils/firebase/firebase";
-
+import { signOutStart } from "../../store/user/user.action";
 import {
   NavigationContainer,
   LogoContainer,
@@ -15,11 +15,14 @@ import {
 
 const Navbar = () => {
   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+
   const isCartOpen = useSelector(selectIsCartOpen);
   //const { isCartOpen } = useContext(CartContext);
 
   const signOutHandler = async () => {
-    await signOutUser();
+    //await signOutUser();
+    dispatch(signOutStart());
   };
   return (
     <NavigationContainer>

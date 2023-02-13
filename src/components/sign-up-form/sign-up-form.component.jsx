@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.js";
+import { signUpStart } from "../../store/user/user.action";
 import FormInput from "../form-input/form-input.component.jsx";
 import Button from "../button/button.component.jsx";
 import "./sign-up-form.styles.scss";
@@ -17,6 +19,7 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+  const dispatch = useDispatch();
 
   const handleFieldChange = (event) => {
     const { name, value } = event.target;
@@ -31,15 +34,17 @@ const SignUpForm = () => {
       return;
     }
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      const userRef = await createUserDocumentFromAuth(user, {
-        displayName: `${displayName}`,
-      });
-
+      dispatch(signUpStart(email, password, displayName));
       setFormFields(defaultFormFields);
+      // const { user } = await createAuthUserWithEmailAndPassword(
+      //   email,
+      //   password
+      // );
+      // const userRef = await createUserDocumentFromAuth(user, {
+      //   displayName: `${displayName}`,
+      // });
+
+      // setFormFields(defaultFormFields);
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         return alert("cannot crete account, email already in use");

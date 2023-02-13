@@ -40,6 +40,7 @@ googleProvider.setCustomParameters({ prompt: "select_account" });
 
 export const signInWithGooglePopUp = () =>
   signInWithPopup(auth, googleProvider);
+
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
@@ -106,7 +107,7 @@ export const createUserDocumentFromAuth = async (
       console.log("error creating the user ", error.message);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const signOutUser = async () => {
@@ -115,4 +116,17 @@ export const signOutUser = async () => {
 
 export const onAuthStateChangedListener = (callback) => {
   return onAuthStateChanged(auth, callback);
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };

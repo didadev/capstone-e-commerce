@@ -1,10 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-//const stripe = require("stripe")(process.env.STRIPE_SECRET);
-const stripe = require("stripe")(
-  "sk_test_51Mb5DBHW96TYmkBq4TtggVugNyZ2iDwcE2Bs7ebKt6TeHzkjuzIzEsGhS6lOWCNDX5isaMaghTyPRsAqam3nlVTB00fW7JUGTD"
-);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+// const stripe = require("stripe")(
+//   "sk_test_51Mb5DBHW96TYmkBq4TtggVugNyZ2iDwcE2Bs7ebKt6TeHzkjuzIzEsGhS6lOWCNDX5isaMaghTyPRsAqam3nlVTB00fW7JUGTD"
+// );
 
 exports.handler = async (event) => {
   try {
